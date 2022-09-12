@@ -8,9 +8,7 @@ import cors from 'cors';
 
 dotenv.config();
 
-const connection = mongoose.connect(
-  'mongodb+srv://movie-db:baby123@cluster0.byrlkar.mongodb.net/movie-db?retryWrites=true&w=majority'
-);
+const connection = mongoose.connect(process.env.MONGO_DB_URI || '');
 
 const main = async () => {
   try {

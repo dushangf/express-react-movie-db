@@ -44,6 +44,7 @@ export const login = async (req: express.Request, res: express.Response) => {
 
     const token = jwt.sign(
       {
+        id: user?._id,
         email: user?.email,
         first_name: user?.first_name,
       },
@@ -51,11 +52,91 @@ export const login = async (req: express.Request, res: express.Response) => {
     );
 
     return res.status(200).send({
+      id: user._id,
       email: user.email,
       user: user.first_name,
       token: token,
+      favorites: user.favorites,
       message: 'Successfully logged in.',
     });
+  } catch (error) {
+    return res.status(403).send('Internal server error.');
+  }
+};
+
+export const getUser = async (req: express.Request, res: express.Response) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findOne({ _id: id });
+
+    return res.send(user);
+  } catch (error) {
+    return res.send('Internal server error.');
+  }
+};
+
+export const addFavorite = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    const { email, movie } = req.body;
+
+    movie.delete = false;
+
+    const user = await User.findOneAndUpdate(
+      { email: email },
+      { $push: { favorites: movie } },
+      { new: true }
+    );
+
+    return res.status(200).send(user);
+  } catch (error) {
+    return res.status(403).send('Internal server error.');
+  }
+};
+
+export const removeFavorite = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    const { email, movieID } = req.body;
+
+    const user = await User.findOneAndUpdate(
+      { email: email },
+      { $pull: { favorites: { id: movieID } } },
+      { new: true }
+    );
+
+    return res.status(200).send(user);
+  } catch (error) {
+    return res.status(403).send('Internal server error.');
+  }
+};
+
+export const removeFavorites = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    const { email, movieIDs } = req.body;
+
+    const user = await User.findOneAndUpdate(
+      { email: email },
+      {
+        $pull: {
+          favorites: {
+            id: {
+              $in: movieIDs,
+            },
+          },
+        },
+      },
+      { new: true }
+    );
+
+    return res.status(200).send(user);
   } catch (error) {
     return res.status(403).send('Internal server error.');
   }

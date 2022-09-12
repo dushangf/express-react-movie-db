@@ -1,19 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
-import { userLogin, localUpdate } from '../redux/UserSlice';
+import { userLogin } from '../redux/UserSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import jwtDecode from 'jwt-decode';
 
 const Login = () => {
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
-
-  const history = useHistory();
-
   const dispatch = useDispatch();
-
-  const user = useSelector((state) => state.user);
 
   const handleLogin = async (e) => {
     const credentials = {
@@ -23,18 +17,6 @@ const Login = () => {
     e.preventDefault();
     dispatch(userLogin(credentials));
   };
-
-  useEffect(() => {
-    try {
-      const token = localStorage.getItem('auth-token');
-      const userDetails = jwtDecode(token);
-      userDetails.token = token;
-      dispatch(localUpdate(userDetails));
-      history.push('/');
-    } catch (error) {
-      return;
-    }
-  }, [user]);
 
   return (
     <div className='w-screen h-screen flex justify-center items-center'>
