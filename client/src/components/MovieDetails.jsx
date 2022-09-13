@@ -34,8 +34,10 @@ const MovieDetails = () => {
 
   const favortie_ids = user.favorites.map((favorite) => favorite.id);
 
+  const favorite_status = favortie_ids.indexOf(movie.id) !== -1;
+
   const addFavorites = (movie) => {
-    if (favortie_ids.indexOf(movie.id) == -1) {
+    if (!favorite_status) {
       const details = {
         email: user.email,
         movie: movie,
@@ -61,9 +63,11 @@ const MovieDetails = () => {
           </h1>
           <button
             onClick={() => addFavorites(movie)}
-            className='absolute top-14 right-14 text-4xl hover:scale-110 duration-200'
+            className={`absolute top-14 right-14 text-4xl p-4 rounded-xl ${
+              favorite_status && 'bg-gray-100'
+            }`}
           >
-            <FaBookmark />
+            <FaBookmark className='hover:scale-110 duration-200' />
           </button>
           <div className='m-3'>
             <h4 className='text-xl font-semibold'>Sypnosis</h4>
