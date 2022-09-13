@@ -1,8 +1,8 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import Favorite from './Favorite';
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import Favorite from "./Favorite";
 
-import { removeFavorites } from '../redux/UserSlice';
+import { removeFavorites } from "../redux/UserSlice";
 
 const Favorites = () => {
   const user = useSelector((state) => state.user);
@@ -25,20 +25,19 @@ const Favorites = () => {
     };
 
     dispatch(removeFavorites(details));
-    window.location.reload();
   };
 
   return (
-    <div className='flex flex-col items-end'>
+    <div className="flex flex-col items-end">
       <button
         onClick={() => deleteFavorites()}
-        className='text-white bg-black rounded-full px-10 py-3 m-10 '
+        className="text-white bg-black rounded-full px-10 py-3 m-10"
       >
         Remove Selected
       </button>
-      <div className='w-full'>
-        {favorites.map((movie, idx) => (
-          <Favorite key={idx} movie={movie} />
+      <div className="w-full">
+        {favorites.map((movie) => (
+          <Favorite key={movie.id} movie={movie} />
         ))}
       </div>
     </div>
