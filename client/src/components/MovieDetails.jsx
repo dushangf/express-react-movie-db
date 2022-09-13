@@ -1,9 +1,9 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { addFavorite } from "../redux/UserSlice";
-import { FaBookmark } from "react-icons/fa";
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addFavorite } from '../redux/UserSlice';
+import { FaBookmark } from 'react-icons/fa';
 
 const MovieDetails = () => {
   const [movie, setmovie] = useState({});
@@ -21,7 +21,7 @@ const MovieDetails = () => {
     const getMovieDetails = async () => {
       try {
         const response = await axios.get(
-          url + "/movie/" + id + "?api_key=" + api_key
+          url + '/movie/' + id + '?api_key=' + api_key
         );
 
         setmovie(response.data);
@@ -32,9 +32,9 @@ const MovieDetails = () => {
     getMovieDetails();
   }, [id, api_key, url]);
 
-  const addFavorites = (movie) => {
-    const favortie_ids = user.favorites.map((favorite) => favorite.id);
+  const favortie_ids = user.favorites.map((favorite) => favorite.id);
 
+  const addFavorites = (movie) => {
     if (favortie_ids.indexOf(movie.id) == -1) {
       const details = {
         email: user.email,
@@ -47,27 +47,27 @@ const MovieDetails = () => {
   };
 
   return (
-    <div className="h-full w-full flex flex-col items-center">
-      <div className="border p-10 flex relative w-3/5 my-20 items-center h-96">
-        <img className="h-full" src={imgurl + movie.poster_path} alt="" />
-        <div>
-          <h1 className="text-2xl m-2">{movie.title}</h1>
-          <h1 className="text-3xl m-2">
-            {movie.release_date && movie.release_date.split("-")[0]}
+    <div className='h-full w-full flex flex-col items-center'>
+      <div className='border p-10 flex relative w-3/5 my-20 items-center h-max'>
+        <img className='h-96' src={imgurl + movie.poster_path} alt='' />
+        <div className='mx-5'>
+          <h1 className='text-3xl m-2 font-semibold'>{movie.title}</h1>
+          <h1 className='text-4xl m-2 font-semibold'>
+            {movie.release_date && movie.release_date.split('-')[0]}
           </h1>
-          <h1 className="text-5xl m-3">
+          <h1 className='text-6xl m-3 font-bold'>
             {movie.vote_average && movie.vote_average.toFixed(1)}
-            <span className="text-3xl text-gray-600 mx-2">/ 10</span>
+            <span className='text-3xl text-gray-600 mx-2'>/ 10</span>
           </h1>
           <button
             onClick={() => addFavorites(movie)}
-            className="absolute top-14 right-14 text-4xl hover:scale-110 duration-200"
+            className='absolute top-14 right-14 text-4xl hover:scale-110 duration-200'
           >
             <FaBookmark />
           </button>
-          <div className="m-3">
-            <h4 className="text-lg font-semibold">Sypnosis</h4>
-            <p>{movie.overview}</p>
+          <div className='m-3'>
+            <h4 className='text-xl font-semibold'>Sypnosis</h4>
+            <p className='text-lg my-2'>{movie.overview}</p>
           </div>
         </div>
       </div>

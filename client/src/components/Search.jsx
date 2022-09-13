@@ -65,7 +65,7 @@ const Search = () => {
             className='py-2 px-3 border rounded-full'
             name='rating'
           >
-            <option value={''}>--SELECT--</option>
+            <option value={''}>Select Genre</option>
             {genres.length > 0 &&
               genres.map((genre, idx) => (
                 <option value={genre.id} key={idx}>
@@ -87,7 +87,7 @@ const Search = () => {
             className='py-2 px-3 border rounded-full'
             name='rating'
           >
-            <option value={''}>--SELECT--</option>
+            <option value={''}>Select Rating</option>
             <option value={5}>5+</option>
             <option value={6}>6+</option>
             <option value={7}>7+</option>
@@ -108,7 +108,7 @@ const Search = () => {
             className='py-2 px-3 border rounded-full'
             name='year'
           >
-            <option value={''}>--SELECT--</option>
+            <option value={''}>Select Year</option>
             <option value={'1980-01-01'}>1980</option>
             <option value={'1990-01-01'}>1990</option>
             <option value={'2000-01-01'}>2000</option>
@@ -128,7 +128,7 @@ const Search = () => {
             className='py-2 px-3 border rounded-full'
             name='order-by'
           >
-            <option value={''}>--SELECT--</option>
+            <option value={''}>Order by</option>
             <option value='release_date.dec'>Year</option>
             <option value='vote_average.desc'>Rating</option>
             <option value='original_title.asc'>Name</option>
