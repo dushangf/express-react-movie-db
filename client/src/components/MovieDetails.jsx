@@ -7,8 +7,10 @@ import { FaBookmark } from 'react-icons/fa';
 
 const MovieDetails = () => {
   const [movie, setmovie] = useState({});
+  const [genres, setgenres] = useState([]);
 
   const user = useSelector((state) => state.user);
+  const allGenres = useSelector((state) => state.movies.genres);
 
   const url = process.env.REACT_APP_MOVIE_API;
   const imgurl = process.env.REACT_APP_MOVIE_IMG_URL;
@@ -25,6 +27,10 @@ const MovieDetails = () => {
         );
 
         setmovie(response.data);
+
+        setgenres(
+          allGenres.filter((genre) => movie.genre_ids.includes(genre.id))
+        );
       } catch (error) {
         console.log(error.message);
       }
@@ -57,6 +63,10 @@ const MovieDetails = () => {
           <h1 className='text-4xl m-2 font-semibold'>
             {movie.release_date && movie.release_date.split('-')[0]}
           </h1>
+          <div>
+            {genres &&
+              genres.map((genre) => <p key={genre.id}>{genre.name}</p>)}
+          </div>
           <h1 className='text-6xl m-3 font-bold'>
             {movie.vote_average && movie.vote_average.toFixed(1)}
             <span className='text-3xl text-gray-600 mx-2'>/ 10</span>
