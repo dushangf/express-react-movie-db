@@ -15,6 +15,13 @@ import MovieDetails from './components/MovieDetails';
 const App = () => {
   const [loggedIn, setloggedIn] = useState(false);
 
+  const [filters, setFilters] = useState({
+    genre: '',
+    rating: 0,
+    date: '',
+    sort_by: '',
+  });
+
   const movies = useSelector((state) => state.movies.movie_list);
 
   const user = useSelector((state) => state.user);
@@ -51,8 +58,8 @@ const App = () => {
         </Route>
         <Route exact path='/'>
           <div className='flex flex-col items-center'>
-            <Header user={user} loggedIn={loggedIn} />
-            <Search movies={movies} />
+            <Header loggedIn={loggedIn} />
+            <Search filters={filters} setFilters={setFilters} />
             <MovieList movies={movies} />
           </div>
         </Route>

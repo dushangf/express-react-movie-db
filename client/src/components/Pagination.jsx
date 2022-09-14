@@ -12,7 +12,7 @@ const Pagination = ({ moviesPerPage, totalMovies, paginate, currentPage }) => {
       {pageNumbers.map((number) => (
         <button
           className={`border py-2 px-4 rounded hover:bg-gray-200 duration-200 font-semibold text-xl ${
-            currentPage == number && 'bg-gray-200'
+            currentPage === number && 'bg-gray-200'
           }`}
           key={number}
           onClick={() => paginate(number)}

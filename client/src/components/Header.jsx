@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FaUser, FaBookmark } from 'react-icons/fa';
 
-const Header = ({ user, loggedIn }) => {
+const Header = ({ loggedIn }) => {
   const [optionsStatus, setoptionsStatus] = useState(false);
 
   const history = useHistory();

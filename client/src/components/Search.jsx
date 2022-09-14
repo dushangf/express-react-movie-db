@@ -3,17 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FaSearch } from 'react-icons/fa';
 import { searchMovies, discoverMovies, getGenres } from '../redux/MoviesSlice';
 
-const Search = () => {
+const Search = ({ filters, setFilters }) => {
   const [query, setquery] = useState('');
 
   const genres = useSelector((state) => state.movies.genres);
-
-  const filters = {
-    genre: '',
-    rating: 0,
-    date: '',
-    sort_by: '',
-  };
 
   const dispatch = useDispatch();
 
@@ -57,13 +50,13 @@ const Search = () => {
           </label>
           <select
             onChange={(e) => {
-              filters.genre = e.target.value;
-              console.log(e.target.value);
+              setFilters({ ...filters, genre: e.target.value });
               setquery('');
-              dispatch(discoverMovies(filters));
+              dispatch(discoverMovies({ ...filters, genre: e.target.value }));
             }}
             className='py-2 px-3 border rounded-full'
             name='rating'
+            value={filters.genre}
           >
             <option value={''}>Select Genre</option>
             {genres.length > 0 &&
@@ -80,12 +73,15 @@ const Search = () => {
           </label>
           <select
             onChange={(e) => {
-              filters.rating = Number(e.target.value);
+              setFilters({ ...filters, rating: Number(e.target.value) });
               setquery('');
-              dispatch(discoverMovies(filters));
+              dispatch(
+                discoverMovies({ ...filters, rating: Number(e.target.value) })
+              );
             }}
             className='py-2 px-3 border rounded-full'
             name='rating'
+            value={filters.rating}
           >
             <option value={''}>Select Rating</option>
             <option value={5}>5+</option>
@@ -101,12 +97,13 @@ const Search = () => {
           </label>
           <select
             onChange={(e) => {
-              filters.date = e.target.value;
+              setFilters({ ...filters, date: e.target.value });
               setquery('');
-              dispatch(discoverMovies(filters));
+              dispatch(discoverMovies({ ...filters, date: e.target.value }));
             }}
             className='py-2 px-3 border rounded-full'
             name='year'
+            value={filters.date}
           >
             <option value={''}>Select Year</option>
             <option value={'1980-01-01'}>1980</option>
@@ -115,22 +112,25 @@ const Search = () => {
             <option value={'2020-01-01'}>2020</option>
           </select>
         </div>
-        <div className='flex flex-col mx-5 w-48'>
+        <div className='flex flex-col mx-5 w-54'>
           <label htmlFor='order-by' className='px-4'>
             Order by :{' '}
           </label>
           <select
             onChange={(e) => {
-              filters.sort_by = e.target.value;
+              setFilters({ ...filters, sort_by: e.target.value });
               setquery('');
-              dispatch(discoverMovies(filters));
+              dispatch(discoverMovies({ ...filters, sort_by: e.target.value }));
             }}
             className='py-2 px-3 border rounded-full'
             name='order-by'
+            value={filters.sort_by}
           >
             <option value={''}>Order by</option>
-            <option value='release_date.dec'>Year</option>
-            <option value='vote_average.desc'>Rating</option>
+            <option value='release_date.dec'>Year - (Newest)</option>
+            <option value='release_date.asc'>Year - (Oldest)</option>
+            <option value='vote_average.desc'>Rating - (High to Low)</option>
+            <option value='vote_average.asc'>Rating - (Low to High)</option>
             <option value='original_title.asc'>Name</option>
           </select>
         </div>
