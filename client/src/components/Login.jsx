@@ -1,18 +1,16 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 
 import { userLogin } from '../redux/UserSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
-const Login = () => {
+const Login = ({ loggedIn }) => {
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
 
   const dispatch = useDispatch();
-  const history = useHistory();
 
-  const user = useSelector((state) => state.user);
+  const history = useHistory();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -23,9 +21,15 @@ const Login = () => {
     };
 
     dispatch(userLogin(credentials));
-
-    window.location.reload();
   };
+
+  useEffect(() => {
+    const checkLoggedIn = () => {
+      loggedIn && history.push('/');
+    };
+
+    checkLoggedIn();
+  }, [loggedIn, history]);
 
   return (
     <div className='w-screen h-screen flex justify-center items-center'>

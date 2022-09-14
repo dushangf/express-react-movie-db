@@ -8,8 +8,6 @@ const verifyToken = (
 ) => {
   const token = req.headers.authorization;
 
-  console.log(req.headers);
-
   if (!token) {
     return res.status(401).send(`Unauthorized. No token was found.`);
   }

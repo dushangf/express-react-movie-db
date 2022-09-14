@@ -1,16 +1,16 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { FaBookmark } from 'react-icons/fa';
+import StarRatings from 'react-star-ratings';
+
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addFavorite } from '../redux/UserSlice';
-import { FaBookmark } from 'react-icons/fa';
 
 const MovieDetails = () => {
   const [movie, setmovie] = useState({});
-  const [genres, setgenres] = useState([]);
 
   const user = useSelector((state) => state.user);
-  const allGenres = useSelector((state) => state.movies.genres);
 
   const url = process.env.REACT_APP_MOVIE_API;
   const imgurl = process.env.REACT_APP_MOVIE_IMG_URL;
@@ -27,10 +27,6 @@ const MovieDetails = () => {
         );
 
         setmovie(response.data);
-
-        setgenres(
-          allGenres.filter((genre) => movie.genre_ids.includes(genre.id))
-        );
       } catch (error) {
         console.log(error.message);
       }
@@ -55,35 +51,61 @@ const MovieDetails = () => {
   };
 
   return (
-    <div className='h-full w-full flex flex-col items-center'>
-      <div className='border p-10 flex relative w-3/5 my-20 items-center h-max'>
-        <img className='h-96' src={imgurl + movie.poster_path} alt='' />
-        <div className='mx-5'>
-          <h1 className='text-3xl m-2 font-semibold'>{movie.title}</h1>
-          <h1 className='text-4xl m-2 font-semibold'>
+    <div className='min-h-screen w-full flex flex-col items-center justify-start'>
+      <div className='w-full flex items-center p-20'>
+        <Link className='mx-1' to='/'>
+          Home
+        </Link>
+        <p className='mx-1'>{'>'}</p>
+        <Link className='mx-1' to={`/movies/${movie.id}`}>
+          {movie.title}
+        </Link>
+      </div>
+      <div className='border p-10 flex flex-col xl:flex-row relative w-3/5 items-center h-max'>
+        <img
+          className='xl:h-96 w-3/5 xl:w-auto'
+          src={imgurl + movie.poster_path}
+          alt='not-found'
+        />
+        <div className='mx-5 w-full xl:w-max text-center'>
+          <h1 className='text-3xl m-2 font-semibold text-center xl:text-left'>
+            {movie.title}
+          </h1>
+          <h1 className='text-4xl m-2 font-semibold text-center xl:text-left'>
             {movie.release_date && movie.release_date.split('-')[0]}
           </h1>
-          <div>
-            {genres &&
-              genres.map((genre) => <p key={genre.id}>{genre.name}</p>)}
+          <div className='text-4xl xl:text-6xl m-3 font-bold flex flex-col xl:flex-row items-end w-full xl:w-max items-center'>
+            <h1>
+              {movie.vote_average && movie.vote_average.toFixed(1)}
+              <span className='text-3xl text-gray-600 mx-2'>/ 10</span>
+            </h1>
+            <div className='mx-5'>
+              <StarRatings
+                rating={movie.vote_average && movie.vote_average.toFixed(2) / 2}
+                starRatedColor='orange'
+                starDimension='25px'
+                numberOfStars={5}
+              />
+            </div>
           </div>
-          <h1 className='text-6xl m-3 font-bold'>
-            {movie.vote_average && movie.vote_average.toFixed(1)}
-            <span className='text-3xl text-gray-600 mx-2'>/ 10</span>
-          </h1>
-          <button
-            onClick={() => addFavorites(movie)}
-            className={`absolute top-14 right-14 text-4xl p-4 rounded-xl ${
-              favorite_status && 'bg-gray-100'
-            }`}
-          >
-            <FaBookmark className='hover:scale-110 duration-200' />
-          </button>
-          <div className='m-3'>
+          <div className='flex text-lg font-semibold m-3 w-full xl:w-max justify-center xl:justify-start'>
+            |
+            {movie.genres &&
+              movie.genres.map((genre) => <p key={genre.id}>{genre.name}|</p>)}
+          </div>
+          <div className='m-3 w-full xl:w-content text-center xl:text-left'>
             <h4 className='text-xl font-semibold'>Sypnosis</h4>
             <p className='text-lg my-2'>{movie.overview}</p>
           </div>
         </div>
+        <button
+          onClick={() => addFavorites(movie)}
+          className={`absolute top-6 right-6 xl:top-14 xl:right-14 text-4xl p-4 rounded-xl ${
+            favorite_status && 'bg-gray-100'
+          }`}
+        >
+          <FaBookmark className='hover:scale-110 duration-200' />
+        </button>
       </div>
     </div>
   );

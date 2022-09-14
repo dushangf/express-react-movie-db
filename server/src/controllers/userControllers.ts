@@ -28,8 +28,6 @@ export const login = async (req: express.Request, res: express.Response) => {
 
     const user = await User.findOne({ email: email });
 
-    console.log(user);
-
     if (!user) {
       return res.status(400).send({
         message: 'Email has not been registered. Please sign up.',

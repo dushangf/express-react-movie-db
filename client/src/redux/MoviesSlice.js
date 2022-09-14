@@ -15,14 +15,12 @@ export const searchMovies = createAsyncThunk('movies/search', async (query) => {
 export const discoverMovies = createAsyncThunk(
   'movies/discover',
   async (filters) => {
-    console.log(filters);
     const request = `/discover/movie?api_key=${api_key}${
       filters.date && '&release_date.gte=' + filters.date
     }${filters.sort_by && '&sort_by=' + filters.sort_by}${
       filters.genre && '&with_genres=' + filters.genre
     }&vote_average.gte=${filters.rating}`;
 
-    console.log(request);
     const response = await axios.get(url + request);
     return response.data;
   }

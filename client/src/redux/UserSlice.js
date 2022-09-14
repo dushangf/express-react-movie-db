@@ -103,6 +103,8 @@ const userSlice = createSlice({
       state.email = action.payload.email;
       state.token = action.payload.token;
       state.pending = false;
+      window.location.reload();
+      console.log('reload');
     },
     [userLogin.rejected]: (state) => {
       state.pending = false;

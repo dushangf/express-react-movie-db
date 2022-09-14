@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Switch, Route, useHistory } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import jwtDecode from 'jwt-decode';
 import { getUser } from './redux/UserSlice';
@@ -11,6 +11,7 @@ import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Favorites from './components/Favorites';
 import MovieDetails from './components/MovieDetails';
+import { getGenres } from './redux/MoviesSlice';
 
 const App = () => {
   const [loggedIn, setloggedIn] = useState(false);
@@ -24,18 +25,14 @@ const App = () => {
 
   const movies = useSelector((state) => state.movies.movie_list);
 
-  const user = useSelector((state) => state.user);
-
   const dispatch = useDispatch();
-
-  const history = useHistory();
 
   useEffect(() => {
     try {
+      dispatch(getGenres());
       const local_user = jwtDecode(localStorage.getItem('auth-token'));
       dispatch(getUser(local_user.id));
       setloggedIn(true);
-      history.push('/');
     } catch (error) {
       return;
     }
@@ -48,7 +45,7 @@ const App = () => {
           <MovieDetails />
         </Route>
         <Route exact path='/login'>
-          <Login />
+          <Login loggedIn={loggedIn} />
         </Route>
         <Route exact path='/sign-up'>
           <SignUp />

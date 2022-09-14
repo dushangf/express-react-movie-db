@@ -17,7 +17,7 @@ const Search = ({ filters, setFilters }) => {
   return (
     <div className='w-full flex flex-col items-center font-semibold'>
       <form
-        className='h-10 m-4 flex items-center w-full md:w-1/2'
+        className='h-10 m-4 flex items-center w-full md:w-1/2 px-10'
         onSubmit={(e) => {
           e.preventDefault();
           dispatch(searchMovies(query));
@@ -37,13 +37,13 @@ const Search = ({ filters, setFilters }) => {
           type='text'
         />
         <button
-          className='border-2 border-black rounded-full text-lg h-full px-3 mx-4 w-1/5'
+          className='border-2 border-black rounded-full text-lg h-full px-3 mx-4 w-1/5 hover:bg-black hover:text-white duration-200'
           type='submit'
         >
           Search
         </button>
       </form>
-      <div className='m-5 flex w-full justify-center'>
+      <div className='m-5 flex w-full justify-center flex-wrap'>
         <div className='flex flex-col mx-5 w-48'>
           <label htmlFor='rating' className='px-4'>
             Genre :{' '}
@@ -127,11 +127,12 @@ const Search = ({ filters, setFilters }) => {
             value={filters.sort_by}
           >
             <option value={''}>Order by</option>
-            <option value='release_date.dec'>Year - (Newest)</option>
-            <option value='release_date.asc'>Year - (Oldest)</option>
-            <option value='vote_average.desc'>Rating - (High to Low)</option>
-            <option value='vote_average.asc'>Rating - (Low to High)</option>
-            <option value='original_title.asc'>Name</option>
+            <option value='release_date.dec'>Year (Newest)</option>
+            <option value='release_date.asc'>Year (Oldest)</option>
+            <option value='vote_average.desc'>Rating (High to Low)</option>
+            <option value='vote_average.asc'>Rating (Low to High)</option>
+            <option value='original_title.asc'>Title (Ascending)</option>
+            <option value='original_title.desc'>Title (Descending)</option>
           </select>
         </div>
       </div>
