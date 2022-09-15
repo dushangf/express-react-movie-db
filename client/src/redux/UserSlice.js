@@ -79,6 +79,7 @@ const userSlice = createSlice({
     id: '',
     email: '',
     token: '',
+    logged_in: false,
     favorites: [],
     pending: null,
   },
@@ -103,8 +104,7 @@ const userSlice = createSlice({
       state.email = action.payload.email;
       state.token = action.payload.token;
       state.pending = false;
-      window.location.reload();
-      console.log('reload');
+      state.logged_in = true;
     },
     [userLogin.rejected]: (state) => {
       state.pending = false;
@@ -120,10 +120,12 @@ const userSlice = createSlice({
       state.email = action.payload.email;
       state.favorites = action.payload.favorites;
       state.pending = false;
+      state.logged_in = true;
     },
-    [getUser.rejected]: (state) => {
+    [getUser.rejected]: (state, action) => {
       state.pending = false;
       state.error = true;
+      console.log(action.payload);
     },
     [addFavorite.pending]: (state) => {
       state.pending = true;

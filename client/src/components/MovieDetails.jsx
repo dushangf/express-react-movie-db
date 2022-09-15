@@ -88,10 +88,15 @@ const MovieDetails = () => {
               />
             </div>
           </div>
-          <div className='flex text-lg font-semibold m-3 w-full xl:w-max justify-center xl:justify-start'>
+          <div className='flex text-2xl font-semibold m-3 w-full xl:w-max justify-center xl:justify-start'>
             |
             {movie.genres &&
-              movie.genres.map((genre) => <p key={genre.id}>{genre.name}|</p>)}
+              movie.genres.map((genre) => (
+                <p className='pl-1 text-lg' key={genre.id}>
+                  {genre.name}
+                  <span className='pl-1 text-2xl'>|</span>
+                </p>
+              ))}
           </div>
           <div className='m-3 w-full xl:w-content text-center xl:text-left'>
             <h4 className='text-xl font-semibold'>Sypnosis</h4>

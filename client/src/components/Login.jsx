@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 import { userLogin } from '../redux/UserSlice';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
-const Login = ({ loggedIn }) => {
+const Login = () => {
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
+
+  const loggedIn = useSelector((state) => state.user.logged_in);
 
   const dispatch = useDispatch();
 

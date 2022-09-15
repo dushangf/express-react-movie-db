@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FaUser, FaBookmark } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 
-const Header = ({ loggedIn }) => {
+const Header = () => {
   const [optionsStatus, setoptionsStatus] = useState(false);
+
+  const loggedIn = useSelector((state) => state.user.logged_in);
 
   const history = useHistory();
 

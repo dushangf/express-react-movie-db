@@ -14,8 +14,6 @@ import MovieDetails from './components/MovieDetails';
 import { getGenres } from './redux/MoviesSlice';
 
 const App = () => {
-  const [loggedIn, setloggedIn] = useState(false);
-
   const [filters, setFilters] = useState({
     genre: '',
     rating: 0,
@@ -32,7 +30,6 @@ const App = () => {
       dispatch(getGenres());
       const local_user = jwtDecode(localStorage.getItem('auth-token'));
       dispatch(getUser(local_user.id));
-      setloggedIn(true);
     } catch (error) {
       return;
     }
@@ -45,7 +42,7 @@ const App = () => {
           <MovieDetails />
         </Route>
         <Route exact path='/login'>
-          <Login loggedIn={loggedIn} />
+          <Login />
         </Route>
         <Route exact path='/sign-up'>
           <SignUp />
@@ -55,7 +52,7 @@ const App = () => {
         </Route>
         <Route exact path='/'>
           <div className='flex flex-col items-center'>
-            <Header loggedIn={loggedIn} />
+            <Header />
             <Search filters={filters} setFilters={setFilters} />
             <MovieList movies={movies} />
           </div>
